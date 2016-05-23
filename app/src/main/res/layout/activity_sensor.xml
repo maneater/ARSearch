@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+            android:id="@+id/vTxInfo"
+            android:text="None"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+    <ListView
+            android:id="@+id/vSensorList"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+    </ListView>
+
+</LinearLayout>
