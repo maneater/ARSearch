@@ -34,4 +34,13 @@
             android:onClick="launch"
             android:tag="demo.maneater.com.arsearch.NaviActivity"
             android:layout_height="wrap_content"/>
+
+    <Button
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textAllCaps="false"
+            android:text="Compass Activity"
+            android:onClick="launch"
+            android:tag="demo.maneater.com.arsearch.CompassActivity"
+            android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -10,6 +10,9 @@ public class Mesh {
     // Our vertex buffer.
     private FloatBuffer verticesBuffer = null;
 
+    // Our normal buffer.
+    private FloatBuffer normalBuffer = null;
+
     // Our index buffer.
     private ShortBuffer indicesBuffer = null;
 
@@ -41,9 +44,9 @@ public class Mesh {
         // Counter-clockwise winding.
         gl.glFrontFace(GL10.GL_CCW);
         // Enable face culling.
-        gl.glEnable(GL10.GL_CULL_FACE);
+//        gl.glEnable(GL10.GL_CULL_FACE);
         // What faces to remove with the face culling.
-        gl.glCullFace(GL10.GL_BACK);
+//        gl.glCullFace(GL10.GL_BACK);
         // Enabled the vertices buffer for writing and
         //to be used during
         // rendering.
@@ -52,6 +55,18 @@ public class Mesh {
         //of an array of vertex
         // coordinates to use when rendering.
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
+
+        gl.glTranslatef(x, y, z);
+        gl.glRotatef(rx, 1, 0, 0);
+        gl.glRotatef(ry, 0, 1, 0);
+        gl.glRotatef(rz, 0, 0, 1);
+
+        if (normalBuffer != null) {
+            gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
+            gl.glNormalPointer(GL10.GL_FLOAT, 3, normalBuffer);
+            gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
+        }
+
         // Set flat color
         gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
         // Smooth color
@@ -62,10 +77,6 @@ public class Mesh {
             gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
         }
 
-        gl.glTranslatef(x, y, z);
-        gl.glRotatef(rx, 1, 0, 0);
-        gl.glRotatef(ry, 0, 1, 0);
-        gl.glRotatef(rz, 0, 0, 1);
 
         // Point out the where the color buffer is.
         gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices,
@@ -87,6 +98,16 @@ public class Mesh {
         verticesBuffer.put(vertices);
         verticesBuffer.position(0);
     }
+
+    protected void setNormals(float[] normals) {
+        ByteBuffer vbb
+                = ByteBuffer.allocateDirect(normals.length * 4);
+        vbb.order(ByteOrder.nativeOrder());
+        normalBuffer = vbb.asFloatBuffer();
+        normalBuffer.put(normals);
+        normalBuffer.position(0);
+    }
+
 
     protected void setIndices(short[] indices) {
         // short is 2 bytes, therefore we multiply

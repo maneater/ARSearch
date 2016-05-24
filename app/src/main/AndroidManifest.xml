@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="demo.maneater.com.arsearch">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 用于访问GPS定位 -->
@@ -44,6 +49,8 @@
         <activity android:name=".DisplayActivity">
         </activity>
         <activity android:name=".NaviActivity">
+        </activity>
+        <activity android:name=".CompassActivity">
         </activity>
     </application>
 
