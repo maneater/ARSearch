@@ -130,8 +130,7 @@ public class DisplayActivity extends AppCompatActivity implements SensorEventLis
             // Reset the projection matrix
             gl.glLoadIdentity();
             // Calculate the aspect ratio of the window
-            GLU.gluPerspective(gl, 45.0f,
-                    (float) width / (float) height,
+            GLU.gluPerspective(gl, 45.0f, (float) width / (float) height,
                     0.1f, 100.0f);
             // Select the modelview matrix
             gl.glMatrixMode(GL10.GL_MODELVIEW);

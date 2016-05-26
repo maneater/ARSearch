@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context="demo.maneater.com.arsearch.CompassActivity">
 
-    <demo.maneater.com.arsearch.gl.GLCompassView
+    <demo.maneater.com.arsearch.view.compass.GLCompassView
             android:id="@+id/vGLSurfaceView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

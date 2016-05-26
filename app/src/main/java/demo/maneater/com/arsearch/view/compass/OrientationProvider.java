@@ -1,12 +1,15 @@
-package demo.maneater.com.arsearch;
+package demo.maneater.com.arsearch.view.compass;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import rx.Observable;
 import rx.subjects.PublishSubject;
+
+import java.util.Arrays;
 
 public class OrientationProvider implements SensorEventListener {
 
@@ -41,15 +44,16 @@ public class OrientationProvider implements SensorEventListener {
         return orientationPublish.asObservable();
     }
 
+    private float mLastAzimuth = 0.0f;
+
     private void emitResult() {
         if (gravity != null && geomagnetic != null) {
             boolean success = SensorManager.getRotationMatrix(rotationMatrix, null, gravity, geomagnetic);
             if (success) {
                 SensorManager.getOrientation(rotationMatrix, rotationMatrixResult);
-
                 float azimuth = (float) Math.toDegrees(rotationMatrixResult[0]);
-                float pitch = rotationMatrixResult[1];
-                float roll = rotationMatrixResult[2];
+                float pitch = (float) Math.toDegrees(rotationMatrixResult[1]);
+                float roll = (float) Math.toDegrees(rotationMatrixResult[2]);
                 if (azimuth < 0.0f) {
                     azimuth = 360 + azimuth;
                 }
