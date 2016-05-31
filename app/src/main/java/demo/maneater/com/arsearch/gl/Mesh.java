@@ -1,23 +1,20 @@
 package demo.maneater.com.arsearch.gl;
 
 import javax.microedition.khronos.opengles.GL10;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
+import java.nio.*;
 
 public class Mesh {
     // Our vertex buffer.
-    private FloatBuffer verticesBuffer = null;
+    protected FloatBuffer verticesBuffer = null;
 
     // Our normal buffer.
-    private FloatBuffer normalBuffer = null;
+    protected DoubleBuffer normalBuffer = null;
 
     // Our index buffer.
-    private ShortBuffer indicesBuffer = null;
+    protected ShortBuffer indicesBuffer = null;
 
     // The number of indices.
-    private int numOfIndices = -1;
+    protected int numOfIndices = -1;
 
     // Flat Color
     private float[] rgba = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
@@ -67,7 +64,7 @@ public class Mesh {
         }
 
         // Set flat color
-        gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+//        gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
         // Smooth color
         if (colorBuffer != null) {
             // Enable the color array buffer to be
@@ -98,14 +95,14 @@ public class Mesh {
         verticesBuffer.position(0);
     }
 
-    protected void setNormals(float[] normals) {
-        ByteBuffer vbb
-                = ByteBuffer.allocateDirect(normals.length * 4);
-        vbb.order(ByteOrder.nativeOrder());
-        normalBuffer = vbb.asFloatBuffer();
-        normalBuffer.put(normals);
-        normalBuffer.position(0);
-    }
+//    protected void setNormals(float[] normals) {
+//        ByteBuffer vbb
+//                = ByteBuffer.allocateDirect(normals.length * 4);
+//        vbb.order(ByteOrder.nativeOrder());
+//        normalBuffer = vbb.asFloatBuffer();
+//        normalBuffer.put(normals);
+//        normalBuffer.position(0);
+//    }
 
 
     protected void setIndices(short[] indices) {
