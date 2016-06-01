@@ -6,6 +6,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.AttributeSet;
+import rx.Subscription;
 import rx.functions.Action1;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -15,6 +16,7 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
 
     private OrientationProvider mOrientationProvider = null;
+    private Subscription subscription = null;
     private float[] currentOrientation = new float[3];
 
     public GLCompassView(Context context) {
@@ -31,17 +33,17 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
     private void init(Context context) {
         setRenderer(this);
         mOrientationProvider = new OrientationProvider(context.getApplicationContext());
-        mOrientationProvider.asObservable().subscribe(new Action1<float[]>() {
-            @Override
-            public void call(float[] floats) {
-                setCurrentOrientation(floats);
-            }
-        });
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        subscription = mOrientationProvider.asObservable().subscribe(new Action1<float[]>() {
+            @Override
+            public void call(float[] floats) {
+                setCurrentOrientation(floats);
+            }
+        });
         mOrientationProvider.start();
     }
 
@@ -49,6 +51,9 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mOrientationProvider.stop();
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
     }
 
     public void enableCamera() {
