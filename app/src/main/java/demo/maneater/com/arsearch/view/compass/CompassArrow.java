@@ -1,6 +1,4 @@
-package demo.maneater.com.arsearch.gl;
-
-import demo.maneater.com.arsearch.view.compass.Util;
+package demo.maneater.com.arsearch.view.compass;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.Buffer;
@@ -8,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Arrow {
+public class CompassArrow {
 
 
     private float x;
@@ -22,7 +20,7 @@ public class Arrow {
     private Buffer indicesBuffer;
     private int numOfIndices;
 
-    public Arrow(float innerLength, float depth) {
+    public CompassArrow(float innerLength, float depth) {
         float s1 = innerLength * 1.732f / 2;
         float s2 = innerLength / 2;
         depth /= 2;
@@ -107,7 +105,7 @@ public class Arrow {
         gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 
         gl.glPushMatrix();
-//        gl.glTranslatef(x, y, z);
+
         gl.glRotatef(rx, 1, 0, 0);
         gl.glRotatef(ry, 0, 1, 0);
         gl.glRotatef(rz, 0, 0, 1);

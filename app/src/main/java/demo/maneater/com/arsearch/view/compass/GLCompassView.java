@@ -6,7 +6,6 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.AttributeSet;
-import demo.maneater.com.arsearch.gl.Arrow;
 import rx.functions.Action1;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -64,14 +63,12 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        gl.glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
+        gl.glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
         gl.glFrontFace(GL10.GL_CCW);
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glEnable(GL10.GL_CULL_FACE);
-        gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
-
         initScene();
     }
 
@@ -96,26 +93,23 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
         gl.glEnable(GL10.GL_LIGHTING);
         gl.glEnable(GL10.GL_LIGHT0);
-//
-//        /////////////////////////
-//
+
         gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, Util.asFloatBuffer(new float[]{-0f, 10f, 10f, 1.0f})); //指定第0号光源的位置
         gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//环境光设置
 //        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f})); //漫反射后~~
 //        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//镜面反射后~~~
-//        /////////////////////////
-//
+
 //
         gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{0.0f, 0.4f, 0.0f, 1.0f,}));//材质属性中的环境光
         gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的散射光
-//        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的镜面反射光
-//        gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, 64); //材质属性的镜面反射指数
+//      gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的镜面反射光
+//      gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, 64); //材质属性的镜面反射指数
 
         gl.glLoadIdentity();
 
     }
 
-    private Arrow mArrow = null;
+    private CompassArrow mCompassArrow = null;
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -126,24 +120,22 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
     private void drawScene(GL10 gl) {
         if (currentOrientation != null) {
-            mArrow.rz = currentOrientation[0];
-            mArrow.rx = currentOrientation[1];
-            mArrow.ry = -currentOrientation[2];
+            mCompassArrow.rz = currentOrientation[0];
+            mCompassArrow.rx = currentOrientation[1];
+            mCompassArrow.ry = -currentOrientation[2];
         }
-        mArrow.draw(gl);
+        mCompassArrow.draw(gl);
     }
 
     private void initScene() {
-        mArrow = new Arrow(0.5f, 0.1f);
+        mCompassArrow = new CompassArrow(0.5f, 0.1f);
     }
 
     private ObjectAnimator mObjectAnimator = null;
 
     public void setCurrentOrientation(float[] newOrientation) {
-
         if (mObjectAnimator != null) {
             mObjectAnimator.cancel();
-//            this.currentOrientation[0] = flatAzimuth(this.currentOrientation[0], newOrientation[0]);
             mObjectAnimator.getValues()[0].setFloatValues(this.currentOrientation[0], flatAzimuth(this.currentOrientation[0], newOrientation[0]));
             mObjectAnimator.getValues()[1].setFloatValues(this.currentOrientation[1], newOrientation[1]);
             mObjectAnimator.getValues()[2].setFloatValues(this.currentOrientation[2], newOrientation[2]);

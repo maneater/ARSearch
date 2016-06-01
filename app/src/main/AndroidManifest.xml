@@ -46,8 +46,6 @@
                 android:label="@string/title_activity_sensor"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".DisplayActivity">
-        </activity>
         <activity android:name=".NaviActivity">
         </activity>
         <activity android:name=".CompassActivity">

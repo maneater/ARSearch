@@ -21,15 +21,6 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:textAllCaps="false"
-            android:text="Display Activity"
-            android:onClick="launch"
-            android:tag="demo.maneater.com.arsearch.DisplayActivity"
-            android:layout_height="wrap_content"/>
-
-    <Button
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:textAllCaps="false"
             android:text="Navi Activity"
             android:onClick="launch"
             android:tag="demo.maneater.com.arsearch.NaviActivity"
