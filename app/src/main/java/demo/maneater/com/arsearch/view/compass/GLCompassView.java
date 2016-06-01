@@ -64,7 +64,7 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+        gl.glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
         gl.glFrontFace(GL10.GL_CCW);
         gl.glShadeModel(GL10.GL_SMOOTH);
         gl.glEnable(GL10.GL_DEPTH_TEST);
@@ -94,36 +94,29 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
     private void initLight(GL10 gl) {
 
-
-        gl.glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
-        gl.glEnable(GL10.GL_DEPTH_TEST);
-        gl.glEnable(GL10.GL_CULL_FACE);
-        gl.glShadeModel(GL10.GL_SMOOTH);
-
         gl.glEnable(GL10.GL_LIGHTING);
         gl.glEnable(GL10.GL_LIGHT0);
-
-
-        /////////////////////////
-
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, Util.asFloatBuffer(new float[]{-0f, 0f, 4f, 1.0f})); //指定第0号光源的位置
+//
+//        /////////////////////////
+//
+        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, Util.asFloatBuffer(new float[]{-0f, 10f, 10f, 1.0f})); //指定第0号光源的位置
         gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//环境光设置
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f})); //漫反射后~~
-        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//镜面反射后~~~
-        /////////////////////////
-
-
-        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{0.0f, 0.35f, 0.0f, 1.0f,}));//材质属性中的环境光
+//        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f})); //漫反射后~~
+//        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//镜面反射后~~~
+//        /////////////////////////
+//
+//
+        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{0.0f, 0.4f, 0.0f, 1.0f,}));//材质属性中的环境光
         gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的散射光
-        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的镜面反射光
-        gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, 64); //材质属性的镜面反射指数
+//        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, Util.asFloatBuffer(new float[]{0.0f, 1.0f, 0.0f, 1.0f}));//材质属性中的镜面反射光
+//        gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, 64); //材质属性的镜面反射指数
 
         gl.glLoadIdentity();
 
     }
 
     private Arrow mArrow = null;
-    private Arrow mArrow2 = null;
+    private Plane plane = null;
 
 
     @Override
@@ -142,14 +135,19 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
             mArrow.rz = currentOrientation[0];
             mArrow.rx = currentOrientation[1];
             mArrow.ry = -currentOrientation[2];
+
+            plane.rz = currentOrientation[0];
+            plane.rx = currentOrientation[1];
+            plane.ry = -currentOrientation[2];
+
         }
         mArrow.draw(gl);
-//        mArrow2.draw(gl);
+//        plane.draw(gl);
     }
 
     private void initScene() {
         mArrow = new Arrow(0.5f, 0.1f);
-        mArrow2 = new Arrow(0.5f, 0.1f);
+        plane = new Plane(0.5f);
     }
 
     private ObjectAnimator mObjectAnimator = null;

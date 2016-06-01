@@ -6,7 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 
 public class Arrow {
 
@@ -85,18 +85,18 @@ public class Arrow {
         // 各顶点法线向量
         ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 8);
         vbb.order(ByteOrder.nativeOrder());
-        DoubleBuffer doubleBuffer = vbb.asDoubleBuffer();
-        doubleBuffer.position(0);
-        doubleBuffer.put(Util.vectorAdd(noraml_1, noraml_2, noraml_3));  //0
-        doubleBuffer.put(Util.vectorAdd(noraml_1, noraml_2, noraml_4));  //1
-        doubleBuffer.put(Util.vectorAdd(noraml_1, noraml_4, noraml_5));  //2
-        doubleBuffer.put(Util.vectorAdd(noraml_1, noraml_5, noraml_3));  //3
+        FloatBuffer floatBuffer = vbb.asFloatBuffer();
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_1, noraml_2, noraml_3)));  //0
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_1, noraml_2, noraml_4)));  //1
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_1, noraml_4, noraml_5)));  //2
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_1, noraml_5, noraml_3)));  //3
 
-        doubleBuffer.put(Util.vectorAdd(noraml_6, noraml_2, noraml_3));  //4
-        doubleBuffer.put(Util.vectorAdd(noraml_6, noraml_2, noraml_4));  //5
-        doubleBuffer.put(Util.vectorAdd(noraml_6, noraml_4, noraml_5));  //6
-        doubleBuffer.put(Util.vectorAdd(noraml_6, noraml_5, noraml_3));  //7
-        this.normalBuffer = doubleBuffer;
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_6, noraml_2, noraml_3)));  //4
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_6, noraml_2, noraml_4)));  //5
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_6, noraml_4, noraml_5)));  //6
+        floatBuffer.put(Util.asFloat(Util.vectorAdd(noraml_6, noraml_5, noraml_3)));  //7
+        floatBuffer.position(0);
+        this.normalBuffer = floatBuffer;
     }
 
     public void draw(GL10 gl) {

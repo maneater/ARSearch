@@ -56,10 +56,10 @@ public class Plane {
         gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
         gl.glPushMatrix();
         gl.glLoadIdentity();
-//        gl.glTranslatef(x, y, z);
-//        gl.glRotatef(rx, 1, 0, 0);
-//        gl.glRotatef(ry, 0, 1, 0);
-//        gl.glRotatef(rz, 0, 0, 1);
+        gl.glTranslatef(x, y, z);
+        gl.glRotatef(rx, 1, 0, 0);
+        gl.glRotatef(ry, 0, 1, 0);
+        gl.glRotatef(rz, 0, 0, 1);
         gl.glNormalPointer(GL10.GL_FLOAT, 0, normalBuffer);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.verticesBuffer);
         gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
