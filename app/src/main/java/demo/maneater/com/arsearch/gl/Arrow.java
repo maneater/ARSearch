@@ -100,6 +100,9 @@ public class Arrow {
     }
 
     public void draw(GL10 gl) {
+        gl.glMatrixMode(GL10.GL_MODELVIEW);
+        gl.glLoadIdentity();
+
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
 

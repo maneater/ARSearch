@@ -116,51 +116,52 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
     }
 
     private Arrow mArrow = null;
-    private Plane plane = null;
-
 
     @Override
     public void onDrawFrame(GL10 gl) {
         // Clears the screen and depth buffer.
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
         drawScene(gl);
     }
 
     private void drawScene(GL10 gl) {
-
-        gl.glMatrixMode(GL10.GL_MODELVIEW);
-        gl.glLoadIdentity();
         if (currentOrientation != null) {
             mArrow.rz = currentOrientation[0];
             mArrow.rx = currentOrientation[1];
             mArrow.ry = -currentOrientation[2];
-
-            plane.rz = currentOrientation[0];
-            plane.rx = currentOrientation[1];
-            plane.ry = -currentOrientation[2];
-
         }
         mArrow.draw(gl);
-//        plane.draw(gl);
     }
 
     private void initScene() {
         mArrow = new Arrow(0.5f, 0.1f);
-        plane = new Plane(0.5f);
     }
 
     private ObjectAnimator mObjectAnimator = null;
 
-    public void setCurrentOrientation(float[] currentOrientation) {
+    public void setCurrentOrientation(float[] newOrientation) {
+
         if (mObjectAnimator != null) {
             mObjectAnimator.cancel();
+//            this.currentOrientation[0] = flatAzimuth(this.currentOrientation[0], newOrientation[0]);
+            mObjectAnimator.getValues()[0].setFloatValues(this.currentOrientation[0], flatAzimuth(this.currentOrientation[0], newOrientation[0]));
+            mObjectAnimator.getValues()[1].setFloatValues(this.currentOrientation[1], newOrientation[1]);
+            mObjectAnimator.getValues()[2].setFloatValues(this.currentOrientation[2], newOrientation[2]);
+        } else {
+            PropertyValuesHolder azimuthValuesHolder = PropertyValuesHolder.ofFloat("azimuth", this.currentOrientation[0], newOrientation[0]);
+            PropertyValuesHolder pitchValuesHolder = PropertyValuesHolder.ofFloat("pitch", this.currentOrientation[1], newOrientation[1]);
+            PropertyValuesHolder rollValuesHolder = PropertyValuesHolder.ofFloat("roll", this.currentOrientation[2], newOrientation[2]);
+            mObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, azimuthValuesHolder, pitchValuesHolder, rollValuesHolder);
         }
-        mObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(this,
-                PropertyValuesHolder.ofFloat("azimuth", this.currentOrientation[0], currentOrientation[0]),
-                PropertyValuesHolder.ofFloat("pitch", this.currentOrientation[1], currentOrientation[1]),
-                PropertyValuesHolder.ofFloat("roll", this.currentOrientation[2], currentOrientation[2]));
         mObjectAnimator.setDuration(100).start();
+    }
+
+    private float flatAzimuth(float azimuth, float newAzimuth) {
+        float sub = newAzimuth - azimuth;
+        if (Math.abs(sub) > 180.0) {
+            return sub < 0 ? (newAzimuth + 360) : (newAzimuth - 360);
+        }
+        return newAzimuth;
     }
 
     public void setAzimuth(float azimuth) {

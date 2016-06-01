@@ -54,6 +54,7 @@ public class OrientationProvider implements SensorEventListener {
                 float azimuth = (float) Math.toDegrees(rotationMatrixResult[0]);
                 float pitch = (float) Math.toDegrees(rotationMatrixResult[1]);
                 float roll = (float) Math.toDegrees(rotationMatrixResult[2]);
+
                 if (azimuth < 0.0f) {
                     azimuth = 360 + azimuth;
                 }
