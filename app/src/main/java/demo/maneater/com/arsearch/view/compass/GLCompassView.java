@@ -6,6 +6,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -99,6 +100,7 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
         gl.glEnable(GL10.GL_LIGHTING);
         gl.glEnable(GL10.GL_LIGHT0);
 
+
         gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, Util.asFloatBuffer(new float[]{-0f, 10f, 10f, 1.0f})); //指定第0号光源的位置
         gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f}));//环境光设置
 //        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE, Util.asFloatBuffer(new float[]{1.0f, 1.0f, 1.0f, 1.0f})); //漫反射后~~
@@ -114,7 +116,7 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
 
     }
 
-    private CompassArrow mCompassArrow = null;
+    private GLArrow mCompassArrow = null;
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -124,16 +126,16 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
     }
 
     private void drawScene(GL10 gl) {
-        if (currentOrientation != null) {
+        if (mCompassArrow != null) {
             mCompassArrow.rz = currentOrientation[0];
             mCompassArrow.rx = currentOrientation[1];
             mCompassArrow.ry = -currentOrientation[2];
+            mCompassArrow.draw(gl);
         }
-        mCompassArrow.draw(gl);
     }
 
     private void initScene() {
-        mCompassArrow = new CompassArrow(0.5f, 0.1f);
+        mCompassArrow = new GLArrow(0.5f, 0.1f);
     }
 
     private ObjectAnimator mObjectAnimator = null;
@@ -151,6 +153,11 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
             mObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, azimuthValuesHolder, pitchValuesHolder, rollValuesHolder);
         }
         mObjectAnimator.setDuration(100).start();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     private float flatAzimuth(float azimuth, float newAzimuth) {

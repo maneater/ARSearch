@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class CompassArrow {
+public class GLArrow {
 
 
     private float x;
@@ -20,7 +20,7 @@ public class CompassArrow {
     private Buffer indicesBuffer;
     private int numOfIndices;
 
-    public CompassArrow(float innerLength, float depth) {
+    public GLArrow(float innerLength, float depth) {
         float s1 = innerLength * 1.732f / 2;
         float s2 = innerLength / 2;
         depth /= 2;
