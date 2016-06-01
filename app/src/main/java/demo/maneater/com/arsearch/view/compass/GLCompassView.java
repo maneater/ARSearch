@@ -159,9 +159,9 @@ public class GLCompassView extends GLSurfaceView implements GLSurfaceView.Render
     private float flatAzimuth(float azimuth, float newAzimuth) {
         float sub = newAzimuth - azimuth;
         if (Math.abs(sub) > 180.0) {
-            return sub < 0 ? (newAzimuth + 360) : (newAzimuth - 360);
+            newAzimuth = sub < 0 ? (newAzimuth + 360) : (newAzimuth - 360);
         }
-        return newAzimuth;
+        return Math.abs(newAzimuth - azimuth) > 1.0 ? newAzimuth : azimuth;
     }
 
     public void setAzimuth(float azimuth) {
