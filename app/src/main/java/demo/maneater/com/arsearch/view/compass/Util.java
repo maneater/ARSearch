@@ -76,4 +76,12 @@ public class Util {
         srcPoint.y = (int) (-(x1 - centerPoint.x) * Math.sin(angleR)
                 + (y1 - centerPoint.y) * Math.cos(angleR) + centerPoint.y);
     }
+
+    public static float[] asFloat(double[] doubles) {
+        float[] result = new float[doubles.length];
+        for (int i = 0; i < doubles.length; i++) {
+            result[i] = (float) doubles[i];
+        }
+        return result;
+    }
 }
